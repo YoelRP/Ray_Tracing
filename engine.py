@@ -2,7 +2,7 @@ from image import Image
 from ray import Ray
 from point import Point
 from color import Color
-
+from vector import Vector
 
 class RenderEngine:
     #render 3d into 2D
@@ -37,7 +37,8 @@ class RenderEngine:
         if obj_hit is None:
             return color
         hit_pos = ray.origin + ray.direction * dist_hit
-        hit_normal = obj_hit.normal(hit_pos)
+    
+        hit_normal = obj_hit.normalf(hit_pos)
         color += self.color_at(obj_hit, hit_pos, hit_normal, scene)
         if depth < self.MAX_DEPTH:
             new_ray_pos = hit_pos+hit_normal * self.MIN_DISPLACE
@@ -50,7 +51,7 @@ class RenderEngine:
     def find_nearest(self, ray, scene):
         dist_min = None
         obj_hit = None
-        for obj in scene.objects:
+        for obj in scene.objects: 
             dist = obj.intersects(ray)
             if dist is not None and (obj_hit is None or dist < dist_min):
                 dist_min = dist

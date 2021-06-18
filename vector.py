@@ -1,4 +1,5 @@
 import math
+import numpy as np
 class Vector:
     """A three element vector used in 3D graphics for multiple purposes"""
     def __init__(self, x=0.0, y=0.0, z=0.0):
@@ -9,6 +10,9 @@ class Vector:
         return "({}, {}, {})".format(self.x, self.y, self.z)
     def dot_product(self, other):
         return self.x * other.x + self.y * other.y + self.z * other.z
+    def cross_product(self, other):
+        cross_product2 = np.cross([self.x,self.y,self.z],[other.x,other.y,other.z])
+        return Vector(cross_product2[0],cross_product2[1],cross_product2[2])
     def magnitude(self):
         return math.sqrt(self.dot_product(self))
     def normalize(self):
