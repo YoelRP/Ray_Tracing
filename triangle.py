@@ -34,4 +34,4 @@ class Triangle:
         return  t
 
     def normalf(self,surface_point):
-        return self.mynormal 
+        return self.mynormal
