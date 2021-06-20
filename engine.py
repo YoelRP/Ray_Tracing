@@ -10,9 +10,11 @@ class RenderEngine:
     MAX_DEPTH = 5
     MIN_DISPLACE = 0.0001
 
-    def __init__(self, width, height, cant_Obj, preview_obj=[]):
+    def __init__(self, width, height, cant_Obj, preview_obj=[], preview_objects_hit_pixel =[]):
         self.cant_rays = 0
-        # self.objects_hit_pixel = np.zeros(width,height,cant_Obj)
+        self.preview_objects_hit_pixel = preview_objects_hit_pixel
+        self.actual_objects_hit_pixel[width][height][cant_Obj] = np.zeros(
+            width, height, cant_Obj)
         self.first_frame = True
         self.preview_obj = preview_obj
 
@@ -33,8 +35,7 @@ class RenderEngine:
             recalculete_obj = []
             for i in range(self.cant_Obj):
                 if preview_obj[i].compare(scene.obj[i]):
-                    recalculete_obj.append(scene.obj[i])
-        
+                    recalculete_obj.append(scene.obj[i].id)
         else:
             for j in range(height):
                 y = y0 + j * ystep
@@ -45,9 +46,14 @@ class RenderEngine:
                 print("{:3.0f}%".format(float(j)/float(height)*100), end="\r")
         return pixels
 
-    def ray_trace(self, ray, scene, depth=0):
+    def ray_trace(self, ray, scene, x,y,depth=0):
         color = Color(0, 0, 0)
         dist_hit, obj_hit = self.find_nearest(ray, scene)
+
+        if(obj_hit.id not in self.actual_objects_hit_pixel):
+            print(" self.actual_objects_hit_pixel")
+            self.actual_objects_hit_pixel[x][y].append(obj_hit.id)
+
         if obj_hit is None:
             return color
         hit_pos = ray.origin + ray.direction * dist_hit

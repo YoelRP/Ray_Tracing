@@ -20,6 +20,7 @@ class GenerateScene:
         self.objects = [
             #chess plane is just a big sphere
             Sphere(
+                1,
                 Point(0, 10000.5, 1),
                 10000.0,
                 ChessMaterial(
@@ -32,6 +33,7 @@ class GenerateScene:
                 ),
 
             Triangle(
+                2,
                 Point(0,100,100),
                 Point(10,11,0),
                 Point(10, 10, 11),
@@ -40,6 +42,7 @@ class GenerateScene:
                 ),
 
             Triangle(
+                3,
                 Point(0,100,100),
                 Point(10,0,100),
                 Point(100, 10, 11),
@@ -48,6 +51,7 @@ class GenerateScene:
                 ),
 
             Sphere(
+                4,
                 Point(0.75, -0.10, 1),
                 0.6,
                 Material(Color.from_hex("#0000FF")),
@@ -55,6 +59,7 @@ class GenerateScene:
                 ),
 
             Sphere(
+                5,
                 Point(-0.75, -0.1, 2.25),
                 0.6,
                 Material(Color.from_hex("#803980")),
