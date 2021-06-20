@@ -34,17 +34,19 @@ def main():
     for i in range(numFramesCam):
         for j in range(numFramesMove):
             CAMERA = Vector(0, i, -1)
-            myScene = GenerateScene(480, 270, Vector(0, -1, -i), "2balls1tri.ppm", Point(j, 0, 0))
+            myScene = GenerateScene(480, 270, Vector(0, 1, -3), "2balls1tri.ppm", Point(j, 0, 0))
             if((i % size) == rank):
                 print(i)
                 print(rank)
-                print("cant objetos" + str(range(myScene.objects)))
+                # print("cant objetos" + str(range(myScene.objects)))
+                preview_obj = []
                 scene = Scene(myScene.camera, myScene.objects, myScene.lights,myScene.width, myScene.height)
-                engine = RenderEngine()
+                engine = RenderEngine(myScene.width, myScene.height, len(myScene.objects), preview_obj)
                 image = engine.render(scene)
                 os.chdir(os.path.dirname(os.path.abspath(mod.__file__)))
                 with open("FRAME_i " + str(i) + "j_" + str(j) + mod.RENDERED_IMG, "w") as img_file:
                     image.write_ppm(img_file)
+                    preview_obj = myScene.objects
                     
 
 if __name__ == "__main__":

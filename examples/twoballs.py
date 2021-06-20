@@ -14,6 +14,7 @@ CAMERA = Vector(0, -0.35, -1)
 OBJECTS = [
     #chess plane is just a big sphere
     Sphere(
+        1,
         Point(0, 10000.5, 1),
         10000.0,
         ChessMaterial(
@@ -24,9 +25,9 @@ OBJECTS = [
             ),
         ),
 
-    Sphere(Point(0.75, -0.10, 1), 0.6, Material(Color.from_hex("#0000FF"))),
+    Sphere(2,Point(0.75, -0.10, 1), 0.6, Material(Color.from_hex("#0000FF"))),
 
-    Sphere(Point(-0.75, -0.1,2.25), 0.6, Material(Color.from_hex("#803980"))),
+    Sphere(3,Point(-0.75, -0.1,2.25), 0.6, Material(Color.from_hex("#803980"))),
 
     ]
 LIGHTS = [
