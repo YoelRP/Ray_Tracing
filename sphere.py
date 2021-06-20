@@ -1,9 +1,9 @@
 from math import sqrt
-
+from point import Point
 class Sphere:
     #is the only 3d shape implemente has a radios,center and material
-    def __init__(self, center, radios, material):
-        self.center = center
+    def __init__(self, center, radios, material, upset = Point(0,0,0)):
+        self.center = center + upset
         self.radios = radios
         self.material = material
 
@@ -21,5 +21,4 @@ class Sphere:
         return None
     def normalf(self,surface_point):
         #return the surface on a sphere
-        
         return (surface_point-self.center).normalize()

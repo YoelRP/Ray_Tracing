@@ -8,7 +8,7 @@ class RenderEngine:
     #render 3d into 2D
     MAX_DEPTH = 5
     MIN_DISPLACE = 0.0001
-    def render(self, scene):
+    def render_MPI(self, scene):
         width = scene.width
         height = scene.height
         aspect_ratio = float(width) / height
@@ -22,6 +22,28 @@ class RenderEngine:
         camera = scene.camera
         pixels = Image(width, height)
 
+        for j in range(height):
+            y = y0 + j * ystep
+            for i in range(width):
+                x = x0 + i * xstep
+                ray = Ray(camera, Point(x, y) - camera)
+                pixels.set_pixel(i, j, self.ray_trace(ray, scene))
+            print("{:3.0f}%".format(float(j)/float(height)*100), end="\r")
+        return pixels
+
+    def render(self, scene):
+        width = scene.width
+        height = scene.height
+        aspect_ratio = float(width) / height
+        x0 = -1.0
+        x1 = +1.0
+        xstep = (x1 - x0) / (width - 1)
+        y0 = -1.0 / aspect_ratio
+        y1 = +1.0 / aspect_ratio
+        ystep = (y1 - y0) / (height - 1)
+
+        camera = scene.camera
+        pixels = Image(width, height)
         for j in range(height):
             y = y0 + j * ystep
             for i in range(width):

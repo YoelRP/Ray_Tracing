@@ -8,6 +8,7 @@ from engine import RenderEngine
 from light import Light
 from material import ChessMaterial, Material
 from triangle import Triangle
+
 WIDTH = 960
 HEIGHT = 540
 RENDERED_IMG = "2balls1tri.ppm"

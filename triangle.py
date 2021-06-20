@@ -5,10 +5,10 @@ from ray import Ray
 from point import Point
 from vector import Vector
 class Triangle:
-    def __init__(self, point1, point2,point3, material):
-        self.point1 = point1
-        self.point2 = point2
-        self.point2 = point2
+    def __init__(self, point1, point2, point3, material, upset=Point(0, 0, 0)):
+        self.point1 = point1 + upset
+        self.point2 = point2 + upset
+        self.point2 = point2 + upset
         self.edge1 = point2-point1
         self.edge2 = point3-point1
         self.material = material
