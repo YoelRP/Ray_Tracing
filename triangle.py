@@ -5,11 +5,11 @@ from ray import Ray
 from point import Point
 from vector import Vector
 class Triangle:
-    def __init__(self,id, point1, point2, point3, material, upset=Point(0, 0, 0)):
+    def __init__(self, id, point1, point2, point3, material, upset=Point(0, 0, 0),move=Point(0, 0, 0)):
         self.id = id
-        self.point1 = point1 + upset
-        self.point2 = point2 + upset
-        self.point3 = point3 + upset
+        self.point1 = point1 + upset + move
+        self.point2 = point2 + upset + move
+        self.point3 = point3 + upset + move
         self.edge1 = point2-point1
         self.edge2 = point3-point1
         self.material = material
@@ -38,7 +38,9 @@ class Triangle:
         return self.mynormal
     
     def compare(self, other):
-        if (self.point1 == other.point1 and self.point2 == other.point2 and self.point3 == other.point3 and self.material == other.material):
+        if (self.point1.x == other.point1.x and self.point2.x == other.point2.x and self.point3.x == other.point3.x
+                and self.point1.z == other.point1.z and self.point2.z == other.point2.z and self.point3.z == other.point3.z
+                and self.point1.y == other.point1.y and self.point2.y == other.point2.y and self.point3.y == other.point3.y):
             return True
         else:
             return False

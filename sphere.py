@@ -2,8 +2,8 @@ from math import sqrt
 from point import Point
 class Sphere:
     #is the only 3d shape implemente has a radios,center and material
-    def __init__(self,id, center, radios, material, upset = Point(0,0,0)):
-        self.center = center + upset
+    def __init__(self,id, center, radios, material, upset = Point(0,0,0), move = Point(0,0,0)  ):
+        self.center = center + upset + move
         self.radios = radios
         self.material = material
         self.id = id
@@ -25,7 +25,7 @@ class Sphere:
         return (surface_point-self.center).normalize()
     
     def compare(self,other):
-        if (self.center == other.center and self.radios == other.radios and self.material == other.material):
+        if (self.center.x == other.center.x and self.center.y == other.center.y and self.center.z == other.center.z and self.radios == other.radios):
             return True
         else:
             return False

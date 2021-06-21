@@ -11,12 +11,13 @@ from triangle import Triangle
 
 
 class GenerateScene:
-    def __init__(self, width=960, height=540, camera=Vector(0, -0.35, -1), rendered_img="2balls1tri.ppm", upset= Point(0,0,0)):
+    def __init__(self, width=960, height=540, camera=Vector(0, -0.35, -1), rendered_img="2balls1tri.ppm", upset= Point(0,0,0),move = Point(0,0,0)):
         self.width = width
         self.height = height
         self.rendered_img = rendered_img
         self.camera = camera
         self.upset = upset
+        self.move = move
         self.objects = [
             #chess plane is just a big sphere
             Sphere(
@@ -63,7 +64,8 @@ class GenerateScene:
                 Point(-0.75, -0.1, 2.25),
                 0.6,
                 Material(Color.from_hex("#803980")),
-                self.upset
+                self.upset,
+                self.move
                 ),
 
             ]
