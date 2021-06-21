@@ -77,7 +77,6 @@ class RenderEngine:
                 # print("{:3.0f}%".format(float(j)/float(height)*100), end="\r")
         self.preview_objects_hit_pixel=self.actual_objects_hit_pixel
         self.preview_obj=scene.objects
-            
         return pixels
 
     def ray_trace(self, ray, scene, x, y, depth=0):
@@ -88,8 +87,6 @@ class RenderEngine:
             return color
 
         if(obj_hit.id not in self.actual_objects_hit_pixel):
-            # print(x)
-            # print(self.actual_objects_hit_pixel[x-1])
             self.actual_objects_hit_pixel[x][y].append(obj_hit.id)
         hit_pos=ray.origin + ray.direction * dist_hit
 

@@ -17,9 +17,17 @@ class Image:
         img_file.write("P3 {} {}\n255\n".format(self.width, self.height))
         for row in self.pixels:
             for color in row:
-                img_file.write(
-                    "{} {} {} ".format(
-                        to_byte(color.x), to_byte(color.y), to_byte(color.z)
+                if (color == None):
+                    img_file.write(
+                        "{} {} {} ".format(
+                            to_byte(0), to_byte(
+                                0), to_byte(0)
+                        )
                     )
-                )
+                else:
+                    img_file.write(
+                        "{} {} {} ".format(
+                            to_byte(color.x), to_byte(color.y), to_byte(color.z)
+                        )
+                    )
                 img_file.write("\n")
