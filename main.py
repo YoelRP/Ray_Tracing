@@ -29,7 +29,7 @@ def main():
     rank = comm.Get_rank()
     node_name = MPI.Get_processor_name()
     numFramesCam = 1
-    numFramesMove = 3
+    numFramesMove = 15
     image = []
     preview_objects_hit_pixel = []
     preview_obj = []
@@ -39,7 +39,7 @@ def main():
         for j in range(numFramesMove):
             # CAMERA = Vector(0, i, -1)
             myScene = GenerateScene(480, 270, Vector(
-                0, 0, -1), "2balls1tri.ppm", Point(-1, 0, 0), Point(j, 0, 0))
+                0, 0, -1), "2balls1tri.ppm", Point(-1, 0, 0), Point(j/10, 0, 0))
             if((i % size) == rank):
                 print(i)
                 print(rank)
@@ -53,7 +53,9 @@ def main():
                     len(myScene.objects),
                     preview_obj,
                     objects_hit_pixel,
-                    image)
+                    image,
+                    0
+                    )
                 image = engine.render(scene)
                 
                 os.chdir(os.path.dirname(os.path.abspath(mod.__file__)))

@@ -7,7 +7,7 @@ import numpy as np
 
 
 class RenderEngine:
-    def __init__(self, width, height, cant_Obj, preview_obj=[], preview_objects_hit_pixel=[], preview_image=[], MAX_DEPTH=5, MIN_DISPLACE=0.0001, cant_ray=0):
+    def __init__(self, width, height, cant_Obj, preview_obj=[], preview_objects_hit_pixel=[], preview_image=[], cant_ray=0, MAX_DEPTH=5, MIN_DISPLACE=0.0001):
         self.height = height
         self.width = width
         self.cant_Obj = cant_Obj
@@ -23,6 +23,7 @@ class RenderEngine:
         self.preview_image = preview_image
 
     def render(self, scene):
+        self.cant_ray = 0
         width = scene.width
         height = scene.height
         aspect_ratio = float(width) / height
@@ -36,9 +37,11 @@ class RenderEngine:
         ystep = (y1 - y0) / (height - 1)
         # print("ystep"+str(ystep))
 
+        close_pixels = 10
+        half_closepixels = close_pixels/2
         camera = scene.camera
         pixels = Image(width, height)
-
+        pixels_render = np.zeros((width+5, height+5))
         if(self.preview_obj != [] and self.preview_image != []):
             recalculete_obj = []
             for i in range(self.cant_Obj):
@@ -50,13 +53,19 @@ class RenderEngine:
                 y = y0 + j * ystep
                 for i in range(width):
                     x = x0 + i * xstep
-                    if(recalculete_obj[0] in self.preview_objects_hit_pixel[i][j]):
-                        ray = Ray(camera, Point(x, y) - camera)
-                        pixels.set_pixel(
-                            i, j, self.ray_trace(ray, scene, i, j))
-                        self.cant_ray = self.cant_ray + 1
-                    else:
-                        pixels.set_pixel(i, j, self.preview_image.get_pixel(i,j))
+                    for m in range(len(recalculete_obj)):
+                        if(recalculete_obj[m] in self.preview_objects_hit_pixel[i][j]):
+                            for k in range(close_pixels):
+                                for l in range(close_pixels):
+                                    if(i-5+l < width and j-5+l < height and (i-5+l) >= 0 and j-5+l >= 0):
+                                        if(pixels_render[(i-5+l)][(j-5+l)] == 0):
+                                            ray = Ray(camera, Point(x, y) - camera)
+                                            pixels.set_pixel(
+                                                i, j, self.ray_trace(ray, scene, i-5+l, j-5+k))
+                                            self.cant_ray = self.cant_ray + 1
+                                            pixels_render[i-5+l][j-5+k] = 1
+                        else:
+                            pixels.set_pixel(i, j, Color(0, 0, 0))
         else:
             for j in range(height):
                 y=y0 + j * ystep
@@ -64,9 +73,11 @@ class RenderEngine:
                     x=x0 + i * xstep
                     ray=Ray(camera, Point(x, y) - camera)
                     pixels.set_pixel(i, j, self.ray_trace(ray, scene, i, j))
+                    self.cant_ray = self.cant_ray + 1
                 # print("{:3.0f}%".format(float(j)/float(height)*100), end="\r")
-            self.preview_objects_hit_pixel=self.actual_objects_hit_pixel
-            self.preview_obj=scene.objects
+        self.preview_objects_hit_pixel=self.actual_objects_hit_pixel
+        self.preview_obj=scene.objects
+            
         return pixels
 
     def ray_trace(self, ray, scene, x, y, depth=0):
