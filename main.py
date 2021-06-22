@@ -19,6 +19,7 @@ import importlib
 import os
 
 def main():
+    total_time_begin = time()
     parser = argparse.ArgumentParser()
     parser.add_argument("scene", help="Path to rendered image")
     args = parser.parse_args()
@@ -29,7 +30,7 @@ def main():
     rank = comm.Get_rank()
     node_name = MPI.Get_processor_name()
     numFramesCam = 1
-    numFramesMove = 8
+    numFramesMove = 16
     image = []
     preview_objects_hit_pixel = []
     preview_obj = []
@@ -65,9 +66,12 @@ def main():
                 preview_obj = myScene.objects
                 cant_ray = engine.cant_ray
                 fin = time()
-                print("tiempo " + str(fin-inicio))
+                print("tiempo by frame" + str(fin-inicio))
                 print("FRAME_i" + str(j) + mod.RENDERED_IMG + " use " +str(cant_ray))
                 objects_hit_pixel = engine.preview_objects_hit_pixel
+                
+    total_time_end = time()
+    print("tiempo total " + str(total_time_end-total_time_begin))
                 
 
 
